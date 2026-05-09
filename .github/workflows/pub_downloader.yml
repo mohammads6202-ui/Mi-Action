@@ -1,4 +1,4 @@
-name: دانلودر پورن هاب
+name: دانلودر پ هاب
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ on:
         description: 'Video quality (yt-dlp format selector)'
         required: true
         type: string
-        default: 'bestvideo[height<=720]+bestaudio/best[ext=mp4]/best'
+        default: 'bestvideo[height<=1080]+bestaudio/best[ext=mp4]/best'
       archive_name:
         description: 'Base name for the RAR archive (if file is split)'
         required: false
@@ -115,12 +115,12 @@ jobs:
           cd "$FOLDER"
 
           if (( $(echo "$SIZE_MB > $THRESHOLD_MB" | bc -l) )); then
-            echo "File size ${SIZE_MB} MB exceeds ${THRESHOLD_MB} MB – splitting into 95 MB RAR parts."
+            echo "File size ${SIZE_MB} MB exceeds ${THRESHOLD_MB} MB – splitting into 99 MB RAR parts."
             # Append a random 6‑character hex suffix to avoid name collisions
             RANDOM_HEX=$(openssl rand -hex 3)
             ARCHIVE_NAME="${{ github.event.inputs.archive_name }}_${RANDOM_HEX}"
             echo "Archive base name: ${ARCHIVE_NAME}"
-            rar a -v95m -m5 -ep1 "${ARCHIVE_NAME}.rar" "$FILENAME"
+            rar a -v99m -m5 -ep1 "${ARCHIVE_NAME}.rar" "$FILENAME"
             rm "$FILENAME"   # Remove original file after successful split
             echo "split_done=true" >> $GITHUB_OUTPUT
             echo "Split completed. Parts created:"
